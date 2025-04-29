@@ -172,3 +172,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+src/components/data/processed/Train
+
+src/components/data/processed/valid

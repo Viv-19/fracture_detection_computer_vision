@@ -1,0 +1,36 @@
+# Core Libraries
+numpy
+pandas
+scikit-learn
+torch
+matplotlib
+seaborn
+opencv-python
+
+# Logging and Monitoring
+from-root
+
+# Configuration and YAML handling
+pyyaml
+
+# Data Augmentation (if needed for images or other data types)
+albumentations
+
+# Model Evaluation and Metrics
+scipy
+
+
+# Dependency for Docker (if building Docker image)
+docker
+
+# Miscellaneous Utilities
+tqdm
+requests
+
+ipykernel
+
+scikit-image
+
+tensorflow
+
+scikeras
