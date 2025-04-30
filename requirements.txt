@@ -36,3 +36,7 @@ tensorflow
 scikeras
 
 keras-tuner
+
+fastapi
+
+uvicorn
