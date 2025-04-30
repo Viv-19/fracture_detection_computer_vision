@@ -34,3 +34,5 @@ scikit-image
 tensorflow
 
 scikeras
+
+keras-tuner
