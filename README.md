@@ -23,6 +23,8 @@ An AI-driven end-to-end pipeline for detecting bone fractures in radiographic (X
 📎 Contributors
 
 
+
+
 🎯 Project Objective
 
 Goal: Develop a deep learning-based model to detect bone fractures in X-ray images.
