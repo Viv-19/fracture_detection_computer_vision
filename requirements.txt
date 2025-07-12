@@ -6,6 +6,7 @@ torch
 matplotlib
 seaborn
 opencv-python
+streamlit
 
 # Logging and Monitoring
 from-root

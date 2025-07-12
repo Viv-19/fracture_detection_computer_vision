@@ -3,10 +3,17 @@ import os
 import cv2
 import numpy as np
 import streamlit as st
-import tensorflow as tf
-from tensorflow.keras.models import load_model, Model
-from tensorflow.keras.layers import Input
 from skimage import exposure
+
+# Try to import TensorFlow, but don't fail if it's not available
+try:
+    import tensorflow as tf
+    from tensorflow.keras.models import load_model, Model
+    from tensorflow.keras.layers import Input
+    TENSORFLOW_AVAILABLE = True
+except ImportError:
+    TENSORFLOW_AVAILABLE = False
+    st.warning("⚠️ TensorFlow is not available. The app will run in demo mode without model predictions.")
 
 # Streamlit page configuration MUST BE FIRST COMMAND
 st.set_page_config(
@@ -27,6 +34,8 @@ CONFIG = {
 # Load Model with caching
 @st.cache_resource
 def load_fracture_model():
+    if not TENSORFLOW_AVAILABLE:
+        return None
     try:
         model = load_model(CONFIG['model_path'])
         # Verify the model has the expected last conv layer
@@ -36,7 +45,7 @@ def load_fracture_model():
         st.error(f"Error loading model: {str(e)}")
         return None
 
-model = load_fracture_model()
+model = load_fracture_model() if TENSORFLOW_AVAILABLE else None
 
 def preprocess_xray(img):
     """Enhanced X-ray image preprocessing pipeline"""
@@ -75,6 +84,12 @@ def preprocess_xray(img):
 
 def generate_gradcam(img, model, layer_name):
     """Generate Grad-CAM heatmap for fracture localization"""
+    if model is None:
+        # Return a demo heatmap when model is not available
+        heatmap = np.random.rand(img.shape[0], img.shape[1]) * 255
+        heatmap = heatmap.astype(np.uint8)
+        return heatmap
+    
     # Create model that maps input to conv layer output + predictions
     grad_model = Model(
         inputs=model.inputs,
@@ -119,15 +134,21 @@ def predict_fracture(image_data):
         img = cv2.resize(img, CONFIG['target_size'])
         processed_img = preprocess_xray(img)
         
-        # Make prediction
-        img_array = np.expand_dims(processed_img, axis=0)
-        fracture_prob = model.predict(img_array, verbose=0)[0][0]
+        # Make prediction if model is available
+        if model is not None:
+            img_array = np.expand_dims(processed_img, axis=0)
+            fracture_prob = model.predict(img_array, verbose=0)[0][0]
+            result = "Fracture" if fracture_prob > 0.5 else "Normal"
+        else:
+            # Demo mode - simulate prediction
+            fracture_prob = 0.3  # Demo value
+            result = "Demo Mode - No Model Available"
         
         return {
             'original': original_img,
             'processed': processed_img,
             'probability': float(fracture_prob),
-            'result': "Fracture" if fracture_prob > 0.5 else "Normal"
+            'result': result
         }
     except Exception as e:
         st.error(f"Error processing image: {str(e)}")

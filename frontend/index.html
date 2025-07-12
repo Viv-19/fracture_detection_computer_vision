@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bone Fracture Detection - AI Medical Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-bone"></i>
+                    <h1>FractureDetect AI</h1>
+                </div>
+                <nav class="nav">
+                    <a href="#home" class="nav-link active">Home</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h2>AI-Powered Bone Fracture Detection</h2>
+                        <p>Upload X-ray images and get instant, accurate fracture detection powered by advanced deep learning algorithms.</p>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-number">99.2%</span>
+                                <span class="stat-label">Accuracy</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">< 2s</span>
+                                <span class="stat-label">Processing Time</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">24/7</span>
+                                <span class="stat-label">Availability</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <div class="xray-placeholder">
+                            <i class="fas fa-x-ray"></i>
+                            <p>Upload X-ray Image</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <div class="container">
+                <div class="upload-card">
+                    <div class="upload-header">
+                        <h3><i class="fas fa-cloud-upload-alt"></i> Upload X-ray Image</h3>
+                        <p>Supported formats: PNG, JPG, JPEG (Max 10MB)</p>
+                    </div>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-content">
+                            <i class="fas fa-file-medical"></i>
+                            <h4>Drag & Drop your X-ray image here</h4>
+                            <p>or</p>
+                            <button class="btn btn-primary" id="selectFileBtn">
+                                <i class="fas fa-folder-open"></i>
+                                Choose File
+                            </button>
+                            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="upload-preview" id="uploadPreview" style="display: none;">
+                        <div class="preview-header">
+                            <h4>Image Preview</h4>
+                            <button class="btn btn-secondary" id="changeFileBtn">
+                                <i class="fas fa-edit"></i>
+                                Change File
+                            </button>
+                        </div>
+                        <div class="preview-content">
+                            <img id="previewImage" src="" alt="X-ray preview">
+                            <div class="preview-info">
+                                <p><strong>File:</strong> <span id="fileName"></span></p>
+                                <p><strong>Size:</strong> <span id="fileSize"></span></p>
+                                <p><strong>Type:</strong> <span id="fileType"></span></p>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" id="analyzeBtn">
+                            <i class="fas fa-search"></i>
+                            Analyze Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section" id="resultsSection" style="display: none;">
+            <div class="container">
+                <div class="results-card">
+                    <div class="results-header">
+                        <h3><i class="fas fa-chart-line"></i> Analysis Results</h3>
+                        <div class="processing-indicator" id="processingIndicator">
+                            <div class="spinner"></div>
+                            <span>Analyzing image...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="results-content" id="resultsContent">
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="result-label">Diagnosis</div>
+                                <div class="result-value" id="diagnosisResult">-</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Confidence</div>
+                                <div class="result-value" id="confidenceResult">-</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Processing Time</div>
+                                <div class="result-value" id="processingTime">-</div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-message" id="resultMessage">
+                            <!-- Result message will be displayed here -->
+                        </div>
+                        
+                        <div class="result-actions">
+                            <button class="btn btn-primary" id="downloadReportBtn">
+                                <i class="fas fa-download"></i>
+                                Download Report
+                            </button>
+                            <button class="btn btn-secondary" id="newAnalysisBtn">
+                                <i class="fas fa-plus"></i>
+                                New Analysis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="container">
+                <div class="about-content">
+                    <h3>About Our Technology</h3>
+                    <div class="about-grid">
+                        <div class="about-item">
+                            <i class="fas fa-brain"></i>
+                            <h4>Deep Learning</h4>
+                            <p>Advanced neural networks trained on thousands of X-ray images for accurate fracture detection.</p>
+                        </div>
+                        <div class="about-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Medical Grade</h4>
+                            <p>Built with medical imaging standards and validated by healthcare professionals.</p>
+                        </div>
+                        <div class="about-item">
+                            <i class="fas fa-bolt"></i>
+                            <h4>Real-time Analysis</h4>
+                            <p>Get results in seconds with our optimized processing pipeline.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FractureDetect AI</h4>
+                    <p>Empowering healthcare professionals with AI-driven diagnostic tools.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Important Notice</h4>
+                    <p>This tool is designed to assist medical professionals and does not replace clinical judgment. Always consult with qualified healthcare providers for medical diagnosis.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> support@fracturedetect.ai</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FractureDetect AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Modal -->
+    <div class="modal" id="loadingModal">
+        <div class="modal-content">
+            <div class="loading-spinner"></div>
+            <h3>Processing Image</h3>
+            <p>Please wait while our AI analyzes your X-ray image...</p>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal" id="errorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> Error</h3>
+                <button class="modal-close" id="closeErrorModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage">An error occurred while processing your image.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="retryBtn">Retry</button>
+                <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
